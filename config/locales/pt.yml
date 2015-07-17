@@ -10,3 +10,4 @@ pt:
     price_discount: Desconto no Preço
     percent_discount: Desconto em Percentagem
     bulk_discount: Desconto por Quantidade
+    total_price: Preço Total
