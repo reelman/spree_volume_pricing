@@ -1,0 +1,18 @@
+---
+tr:
+  spree:
+    add_volume_price: Toplu Fiyat Ekle
+    position: Konum
+    discount_type: İndirim Türü
+    range: Aralık
+    volume_prices: Toplu Fiyatlar
+    volume_pricing: Toplu Fiyatlandırma
+    price_discount: Fiyat İndirimi
+    percent_discount: Yüzdelik İndirim
+    bulk_discount:
+  activerecord:
+    errors:
+      messages:
+        could_not_conver_to_range:
+        is_not_a_valid_volume_price_type:
+        must_be_in_format:

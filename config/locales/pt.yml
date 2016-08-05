@@ -11,3 +11,9 @@ pt:
     percent_discount: Desconto em Percentagem
     bulk_discount: Desconto por Quantidade
     total_price: Preço Total
+  activerecord:
+    errors:
+      messages:
+        could_not_conver_to_range:
+        is_not_a_valid_volume_price_type:
+        must_be_in_format:

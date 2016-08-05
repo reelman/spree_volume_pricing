@@ -4,6 +4,13 @@ module SpreeVolumePricing
     isolate_namespace Spree
     engine_name 'spree_volume_pricing'
 
+    initializer 'spree_volume_pricing.preferences', before: 'spree.environment' do
+      Spree::AppConfiguration.class_eval do
+        preference :use_master_variant_volume_pricing, :boolean, default: false
+        preference :volume_pricing_role, :string, default: 'wholesale'
+      end
+    end
+
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
@@ -11,15 +18,20 @@ module SpreeVolumePricing
 
       String.class_eval do
         def to_range
-          case self.count('.')
+          case count('.')
           when 2
-            elements = self.split('..')
-            return Range.new(elements[0].from(1).to_i, elements[1].to_i)
+            elements = split('..')
+            return Range.new(elements[0].delete('(').to_i, elements[1].to_i)
           when 3
-            elements = self.split('...')
-            return Range.new(elements[0].from(1).to_i, elements[1].to_i - 1)
+            elements = split('...')
+            return Range.new(elements[0].delete('(').to_i, elements[1].to_i - 1)
           else
-            raise ArgumentError.new("Couldn't convert to Range: #{self}")
+            raise ArgumentError.new(
+              I18n.t(
+                :'activerecord.errors.messages.could_not_conver_to_range',
+                number: self
+              )
+            )
           end
         end
       end
