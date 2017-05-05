@@ -10,21 +10,31 @@ Spree::Variant.class_eval do
   def join_volume_prices(user = nil)
     table = Spree::VolumePrice.arel_table
 
-    if user
-      Spree::VolumePrice.where(
-        (table[:variant_id].eq(id)
-          .or(table[:volume_price_model_id].in(volume_price_models.ids)))
-          .and(table[:role_id].eq(user.resolve_role))
-        )
-        .order(position: :asc)
-    else
-      Spree::VolumePrice.where(
-        (table[:variant_id]
-          .eq(id)
-          .or(table[:volume_price_model_id].in(volume_price_models.ids)))
-          .and(table[:role_id].eq(nil))
-        ).order(position: :asc)
-    end
+      if user
+        results = Spree::VolumePrice.where(
+          (table[:variant_id].eq(id)
+            .or(table[:volume_price_model_id].in(volume_price_models.ids)))
+            .and(table[:role_id].eq(user.resolve_role))
+          )
+          .order(position: :asc)
+      else
+        results = Spree::VolumePrice.where(
+          (table[:variant_id]
+            .eq(id)
+            .or(table[:volume_price_model_id].in(volume_price_models.ids)))
+            .and(table[:role_id].eq(nil))
+          ).order(position: :asc)
+      end
+      
+      if results.count == 0
+        results = Spree::VolumePrice.where(
+          (table[:variant_id].eq(id)
+            .or(table[:volume_price_model_id].in(volume_price_models.ids)))
+            .and(table[:role_id].eq(9999))
+          )
+          .order(position: :asc)
+      end
+    return results
   end
 
   # calculates the price based on quantity
