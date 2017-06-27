@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = SpreeVolumePricing.version
   s.summary     = 'Allow prices to be configured in quantity ranges for each variant'
   s.description = s.summary
-  s.required_ruby_version = '>= 2.2.1'
+  s.required_ruby_version = '>= 2.1.1'
 
   s.author       = 'Sean Schofield'
   s.email        = 'sean@railsdog.com'
